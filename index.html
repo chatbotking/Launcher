@@ -19,8 +19,8 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: var(--neutral-50, #ffffff);
-            color: var(--neutral-800, #343a40);
+            background: #ffffff;
+            color: #343a40;
             line-height: 1.5;
             display: flex;
             flex-direction: column;
@@ -62,7 +62,7 @@
         }
 
         h1, h2, h3 {
-            color: var(--neutral-900, #212529);
+            color: #212529;
             font-weight: 600;
             letter-spacing: -0.02em;
             line-height: 1.3;
@@ -86,14 +86,14 @@
         .main-layout {
             flex: 1;
             display: flex;
-            overflow-x: auto; /* Allow horizontal scroll if needed on small screens */
+            overflow-x: auto;
         }
 
         .controls-column {
             width: 250px;
             min-width: 250px;
-            background: var(--neutral-50);
-            border-right: 1px solid var(--neutral-200);
+            background: #ffffff;
+            border-right: 1px solid #e9ecef;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
@@ -108,82 +108,57 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* no vertical scrolling on the right column */
+            overflow: hidden;
             padding: var(--space-4);
             min-height: 0;
         }
 
+        /* Container for sections */
         .section {
-            background: white;
-            margin-bottom: var(--space-6);
+            margin-bottom: 24px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
         }
 
-        .section-header {
-            padding: var(--space-4) var(--space-4);
-            background: var(--primary);
-            color: white;
-            cursor: pointer;
+        /* Section header/title styling */
+        .section-title {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            position: relative;
-            /* Extend full width by negating parent padding */
-            margin-left: -var(--space-4);
-            margin-right: -var(--space-4);
-        }
-
-        .section-header h2 {
-            margin: 0;
-            font-size: 1rem;
+            cursor: pointer;
+            font-size: 16px;
             font-weight: 600;
-            color: #ffffff; /* Ensuring white text here */
+            color: white;
+            padding: 10px 0px 10px 5px;
+            border-bottom: 1px solid #e0e0e0;
+            background: #36d6b5; /* Green header background */
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
         }
 
-        .section-header::after {
-            content: '+';
-            font-size: 1.2rem;
-            line-height: 1;
-            font-weight: 700;
-            color: #ffffff; /* Ensure plus/minus sign is white */
+        /* Toggle icon in section header */
+        .section-title .toggle-icon {
+            margin-right: 10px;
+            font-weight: bold;
         }
 
-        .section.open .section-header::after {
-            content: '-';
-        }
-
+        /* Content area of each section */
         .section-content {
-            padding: var(--space-6);
-            display: none;
-            max-height: 300px;
-            overflow-y: auto;
+            padding: 15px;
+            display: none; /* Start with sections closed */
         }
 
-        .section.open .section-content {
+        /* Control groups within sections */
+        .control-group {
+            margin-bottom: 12px;
+        }
+
+        /* Labels for form controls */
+        label {
             display: block;
-        }
-
-        .section-title {
-            color: var(--neutral-800);
-            margin-bottom: var(--space-2);
-            font-size: 1.125rem;
-        }
-
-        .section-description {
-            color: var(--neutral-600);
-            font-size: 0.875rem;
-            margin-bottom: var(--space-6);
-        }
-
-        .form-group {
-            margin-bottom: var(--space-6);
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: var(--space-2);
-            font-weight: 500;
-            color: var(--neutral-700);
-            font-size: 0.875rem;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #4a5568;
         }
 
         .form-input {
@@ -385,133 +360,133 @@
         <div class="main-layout">
             <div class="controls-column">
                 <div class="controls-content">
-                    <!-- Basic Configuration -->
-                    <div class="section open" data-section="basic">
-                        <div class="section-header">
-                            <h2>Launcher Settings</h2>
+                    <!-- Launcher Settings -->
+                    <div class="section">
+                        <div class="section-title">
+                            <span class="toggle-icon">+</span>
+                            Launcher Settings
                         </div>
                         <div class="section-content">
-                            <div class="section-description">Enter your account details and basic chatbot settings.</div>
-                            <div class="form-group">
-                                <label class="form-label" for="accountId">Account ID</label>
+                            <div class="control-group">
+                                <label for="accountId">Account ID</label>
                                 <input type="text" id="accountId" class="form-input" placeholder="Enter your Account ID">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="webchatId">Webchat ID</label>
+                            <div class="control-group">
+                                <label for="webchatId">Webchat ID</label>
                                 <input type="text" id="webchatId" class="form-input" placeholder="Enter your Webchat ID">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="bubbleColorMode">Bubble Color Mode</label>
+                            <div class="control-group">
+                                <label for="bubbleColorMode">Bubble Color Mode</label>
                                 <select id="bubbleColorMode" class="form-input">
                                     <option value="gradient">Gradient</option>
                                     <option value="solid">Solid</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="colorStart">Bubble Start/Solid Color</label>
+                            <div class="control-group">
+                                <label for="colorStart">Bubble Start/Solid Color</label>
                                 <div class="color-input-wrapper">
                                     <input type="color" id="colorStart" value="#36D6B5" />
                                     <span class="color-value" id="colorStartValue">#36D6B5</span>
                                 </div>
                             </div>
-                            <div class="form-group" id="gradientEndColorGroup">
-                                <label class="form-label" for="colorEnd">Bubble Gradient End Color</label>
+                            <div class="control-group" id="gradientEndColorGroup">
+                                <label for="colorEnd">Bubble Gradient End Color</label>
                                 <div class="color-input-wrapper">
                                     <input type="color" id="colorEnd" value="#2fb298" />
-                                    <span class="color-value" id="colorEndValue">#2fb298</span>
+                                    <span class="color-value" id="colorEndValue">#2FB298</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Bubble & Icon Settings -->
-                    <div class="section" data-section="bubble">
-                        <div class="section-header">
-                            <h2>Icon Settings</h2>
+                    <!-- Icon Settings -->
+                    <div class="section">
+                        <div class="section-title">
+                            <span class="toggle-icon">+</span>
+                            Icon Settings
                         </div>
                         <div class="section-content">
-                            <div class="section-description">Customize the size of the bubble and the icon inside it.</div>
-                            <div class="form-group">
-                                <label class="form-label" for="bubbleWidth">Bubble Width (px)</label>
+                            <div class="control-group">
+                                <label for="bubbleWidth">Bubble Width (px)</label>
                                 <input type="number" id="bubbleWidth" class="form-input" value="70" min="40" max="200">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="bubbleHeight">Bubble Height (px)</label>
+                            <div class="control-group">
+                                <label for="bubbleHeight">Bubble Height (px)</label>
                                 <input type="number" id="bubbleHeight" class="form-input" value="70" min="40" max="200">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="iconWidth">Icon Width (%)</label>
+                            <div class="control-group">
+                                <label for="iconWidth">Icon Width (%)</label>
                                 <input type="number" id="iconWidth" class="form-input" value="60" min="10" max="100">
                                 <span class="help-text">Percentage relative to bubble size</span>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="iconHeight">Icon Height (%)</label>
+                            <div class="control-group">
+                                <label for="iconHeight">Icon Height (%)</label>
                                 <input type="number" id="iconHeight" class="form-input" value="60" min="10" max="100">
                                 <span class="help-text">Percentage relative to bubble size</span>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="iconInput">Button Icon URL</label>
+                            <div class="control-group">
+                                <label for="iconInput">Button Icon URL</label>
                                 <input type="url" id="iconInput" class="form-input" placeholder="https://example.com/icon.png">
                             </div>
                         </div>
                     </div>
 
                     <!-- Popup Settings -->
-                    <div class="section" data-section="popup">
-                        <div class="section-header">
-                            <h2>Popup Settings</h2>
+                    <div class="section">
+                        <div class="section-title">
+                            <span class="toggle-icon">+</span>
+                            Popup Settings
                         </div>
                         <div class="section-content">
-                            <div class="section-description">Customize the optional popup that appears above the chat bubble.</div>
                             <div class="checkbox-wrapper">
                                 <input type="checkbox" id="popupEnabled" checked>
-                                <label for="popupEnabled">Enable Popup</label>
+                                <label for="popupEnabled" style="margin:0;">Enable Popup</label>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="popupX">Popup X Offset (px)</label>
+                            <div class="control-group">
+                                <label for="popupX">Popup X Offset (px)</label>
                                 <input type="number" id="popupX" class="form-input" value="0" placeholder="Horizontal offset">
                                 <span class="help-text">Positive moves right, negative moves left</span>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="popupY">Popup Y Offset (px)</label>
+                            <div class="control-group">
+                                <label for="popupY">Popup Y Offset (px)</label>
                                 <input type="number" id="popupY" class="form-input" value="-20" placeholder="Vertical offset">
                                 <span class="help-text">Negative moves up, positive moves down</span>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="popupText">Popup Text</label>
+                            <div class="control-group">
+                                <label for="popupText">Popup Text</label>
                                 <input type="text" id="popupText" class="form-input" value="Click Here for a Discount 💸">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="popupFontSize">Popup Font Size (px)</label>
+                            <div class="control-group">
+                                <label for="popupFontSize">Popup Font Size (px)</label>
                                 <input type="number" id="popupFontSize" class="form-input" value="16" min="10" max="36">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="popupTextColor">Popup Text Color</label>
+                            <div class="control-group">
+                                <label for="popupTextColor">Popup Text Color</label>
                                 <div class="color-input-wrapper">
                                     <input type="color" id="popupTextColor" value="#1c1c1e" />
                                     <span class="color-value" id="popupTextColorValue">#1C1C1E</span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="popupBgColor">Popup Background Color</label>
+                            <div class="control-group">
+                                <label for="popupBgColor">Popup Background Color</label>
                                 <div class="color-input-wrapper">
                                     <input type="color" id="popupBgColor" value="#ffffff" />
                                     <span class="color-value" id="popupBgColorValue">#FFFFFF</span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="popupBorderColor">Popup Border Color</label>
+                            <div class="control-group">
+                                <label for="popupBorderColor">Popup Border Color</label>
                                 <div class="color-input-wrapper">
                                     <input type="color" id="popupBorderColor" value="#e9ecef" />
                                     <span class="color-value" id="popupBorderColorValue">#E9ECEF</span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="popupBorderWidth">Popup Border Thickness (px)</label>
+                            <div class="control-group">
+                                <label for="popupBorderWidth">Popup Border Thickness (px)</label>
                                 <input type="number" id="popupBorderWidth" class="form-input" value="1" min="0" max="10">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="popupFontFamily">Popup Font Family</label>
+                            <div class="control-group">
+                                <label for="popupFontFamily">Popup Font Family</label>
                                 <select id="popupFontFamily" class="form-input">
                                     <option value="Arial">Arial</option>
                                     <option value="Helvetica">Helvetica</option>
@@ -523,8 +498,8 @@
                                     <option value="Impact">Impact</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="popupFontStyle">Popup Font Style</label>
+                            <div class="control-group">
+                                <label for="popupFontStyle">Popup Font Style</label>
                                 <select id="popupFontStyle" class="form-input">
                                     <option value="normal">Regular</option>
                                     <option value="bold">Bold</option>
@@ -535,14 +510,14 @@
                     </div>
 
                     <!-- Timer Settings -->
-                    <div class="section" data-section="timer">
-                        <div class="section-header">
-                            <h2>Timer Settings</h2>
+                    <div class="section">
+                        <div class="section-title">
+                            <span class="toggle-icon">+</span>
+                            Timer Settings
                         </div>
                         <div class="section-content">
-                            <div class="section-description">Configure when your chat window and popup should appear.</div>
-                            <div class="form-group">
-                                <label class="form-label" for="chatDelay">Chat Open Delay (seconds)</label>
+                            <div class="control-group">
+                                <label for="chatDelay">Chat Open Delay (seconds)</label>
                                 <input 
                                     type="number" 
                                     id="chatDelay" 
@@ -553,8 +528,8 @@
                                 />
                                 <span class="help-text">Set to 0 to disable auto-open</span>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="popupDelay">Popup Display Delay (seconds)</label>
+                            <div class="control-group">
+                                <label for="popupDelay">Popup Display Delay (seconds)</label>
                                 <input 
                                     type="number" 
                                     id="popupDelay" 
@@ -568,13 +543,16 @@
                         </div>
                     </div>
 
-                    <!-- Generated Code -->
-                    <div class="section" data-section="code">
-                        <div class="section-header">
-                            <h2>Code</h2>
+                    <!-- Code -->
+                    <div class="section">
+                        <div class="section-title">
+                            <span class="toggle-icon">+</span>
+                            Code
                         </div>
                         <div class="section-content">
-                            <div class="section-description">Copy this code and paste it into your website's HTML before the closing <code>&lt;/body&gt;</code> tag.</div>
+                            <span style="display:block;margin-bottom:12px;font-size:14px;color:#4a5568;">
+                                Copy this code and paste it into your website's HTML before the closing <code>&lt;/body&gt;</code> tag.
+                            </span>
                             <button id="copyBtn" class="primary-button">Copy to Clipboard</button>
                             <div class="code-block" id="codeOutput"></div>
                         </div>
@@ -867,6 +845,7 @@
     }
 `;
             } else {
+                // Popup disabled or no text
                 popupStyle = '';
                 popupDiv = '';
                 popupScript = `
@@ -1024,18 +1003,27 @@ ${popupDiv}
             el.previewPopup.style.display = 'none';
         });
 
-        // Only one section open at a time
-        const sectionHeaders = document.querySelectorAll('.section-header');
-        sectionHeaders.forEach(header => {
-            header.addEventListener('click', () => {
-                const clickedSection = header.parentElement;
-                const allSections = document.querySelectorAll('.section');
-                allSections.forEach(sec => {
-                    if (sec !== clickedSection) {
-                        sec.classList.remove('open');
+        // JavaScript for toggle functionality of sections
+        document.querySelectorAll('.section-title').forEach(title => {
+            title.addEventListener('click', function() {
+                const currentlyOpen = document.querySelector('.section-content:not([style*="display: none"])');
+                const sectionContent = this.nextElementSibling;
+                const toggleIcon = this.querySelector('.toggle-icon');
+                
+                if (sectionContent.style.display === 'none' || sectionContent.style.display === '') {
+                    // Close currently open section if exists
+                    if (currentlyOpen && currentlyOpen !== sectionContent) {
+                        currentlyOpen.style.display = 'none';
+                        currentlyOpen.previousElementSibling.querySelector('.toggle-icon').textContent = '+';
                     }
-                });
-                clickedSection.classList.toggle('open');
+                    // Open clicked section
+                    sectionContent.style.display = 'block';
+                    toggleIcon.textContent = '-';
+                } else {
+                    // Close clicked section
+                    sectionContent.style.display = 'none';
+                    toggleIcon.textContent = '+';
+                }
             });
         });
 
