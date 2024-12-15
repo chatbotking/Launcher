@@ -98,6 +98,18 @@
             flex-direction: column;
             overflow-y: auto;
             min-height: 0;
+        }
+
+        /* Header in the controls column */
+        .controls-header {
+            background: #36D6B5;
+            color: #ffffff;
+            padding: var(--space-4);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .controls-content {
             padding: var(--space-4);
         }
 
@@ -110,18 +122,66 @@
             min-height: 0;
         }
 
-        /* Removed media query that hid the preview on narrow screens */
-
         .section {
             background: white;
             border: 1px solid var(--neutral-200);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-md);
-            padding: var(--space-6);
             margin-bottom: var(--space-6);
+            overflow: hidden;
         }
 
         .section-header {
+            padding: var(--space-4) var(--space-4);
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff; /* Ensuring white text here */
+        }
+
+        .section-header::after {
+            content: '+';
+            font-size: 1.2rem;
+            line-height: 1;
+            font-weight: 700;
+            color: #ffffff; /* Ensure plus/minus sign is white */
+        }
+
+        .section.open .section-header::after {
+            content: '-';
+        }
+
+        .section-content {
+            padding: var(--space-6);
+            display: none;
+            /* Make the content scrollable individually */
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .section.open .section-content {
+            display: block;
+        }
+
+        .section-title {
+            color: var(--neutral-800);
+            margin-bottom: var(--space-2);
+            font-size: 1.125rem;
+        }
+
+        .section-description {
+            color: var(--neutral-600);
+            font-size: 0.875rem;
             margin-bottom: var(--space-6);
         }
 
@@ -186,16 +246,6 @@
             font-family: 'Menlo', monospace;
             font-size: 0.8125rem;
             color: var(--neutral-600);
-        }
-
-        .section-title {
-            color: var(--neutral-800);
-            margin-bottom: var(--space-2);
-        }
-
-        .section-description {
-            color: var(--neutral-600);
-            font-size: 0.875rem;
         }
 
         .primary-button {
@@ -347,189 +397,204 @@
     <div class="app-container">
         <div class="main-layout">
             <div class="controls-column">
-                <!-- Basic Configuration -->
-                <div class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">Webchat Launcher Settings</h2>
-                        <p class="section-description">Enter your account details and basic chatbot settings.</p>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="accountId">Account ID</label>
-                        <input type="text" id="accountId" class="form-input" placeholder="Enter your Account ID">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="webchatId">Webchat ID</label>
-                        <input type="text" id="webchatId" class="form-input" placeholder="Enter your Webchat ID">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="bubbleColorMode">Bubble Color Mode</label>
-                        <select id="bubbleColorMode" class="form-input">
-                            <option value="gradient">Gradient</option>
-                            <option value="solid">Solid</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="colorStart">Bubble Start/Solid Color</label>
-                        <div class="color-input-wrapper">
-                            <input type="color" id="colorStart" value="#36D6B5" />
-                            <span class="color-value" id="colorStartValue">#36D6B5</span>
-                        </div>
-                    </div>
-                    <div class="form-group" id="gradientEndColorGroup">
-                        <label class="form-label" for="colorEnd">Bubble Gradient End Color</label>
-                        <div class="color-input-wrapper">
-                            <input type="color" id="colorEnd" value="#2fb298" />
-                            <span class="color-value" id="colorEndValue">#2fb298</span>
-                        </div>
-                    </div>
+                <div class="controls-header">
+                    Configuration Options
                 </div>
-
-                <!-- Bubble & Icon Settings -->
-                <div class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">Bubble & Icon Settings</h2>
-                        <p class="section-description">Customize the size of the bubble and the icon inside it.</p>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="bubbleWidth">Bubble Width (px)</label>
-                        <input type="number" id="bubbleWidth" class="form-input" value="70" min="40" max="200">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="bubbleHeight">Bubble Height (px)</label>
-                        <input type="number" id="bubbleHeight" class="form-input" value="70" min="40" max="200">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="iconWidth">Icon Width (%)</label>
-                        <input type="number" id="iconWidth" class="form-input" value="60" min="10" max="100">
-                        <span class="help-text">Percentage relative to bubble size</span>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="iconHeight">Icon Height (%)</label>
-                        <input type="number" id="iconHeight" class="form-input" value="60" min="10" max="100">
-                        <span class="help-text">Percentage relative to bubble size</span>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="iconInput">Button Icon URL</label>
-                        <input type="url" id="iconInput" class="form-input" placeholder="https://example.com/icon.png">
-                    </div>
-                </div>
-
-                <!-- Popup Settings -->
-                <div class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">Popup Settings</h2>
-                        <p class="section-description">Customize the optional popup that appears above the chat bubble.</p>
-                    </div>
-                    <div class="checkbox-wrapper">
-                        <input type="checkbox" id="popupEnabled" checked>
-                        <label for="popupEnabled">Enable Popup</label>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="popupX">Popup X Offset (px)</label>
-                        <input type="number" id="popupX" class="form-input" value="0" placeholder="Horizontal offset">
-                        <span class="help-text">Positive moves right, negative moves left</span>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="popupY">Popup Y Offset (px)</label>
-                        <input type="number" id="popupY" class="form-input" value="-20" placeholder="Vertical offset">
-                        <span class="help-text">Negative moves up, positive moves down</span>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="popupText">Popup Text</label>
-                        <input type="text" id="popupText" class="form-input" value="Click Here for a Discount 💸">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="popupFontSize">Popup Font Size (px)</label>
-                        <input type="number" id="popupFontSize" class="form-input" value="16" min="10" max="36">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="popupTextColor">Popup Text Color</label>
-                        <div class="color-input-wrapper">
-                            <input type="color" id="popupTextColor" value="#1c1c1e" />
-                            <span class="color-value" id="popupTextColorValue">#1c1c1e</span>
+                <div class="controls-content">
+                    <!-- Basic Configuration -->
+                    <div class="section open" data-section="basic">
+                        <div class="section-header">
+                            <h2>Webchat Launcher Settings</h2>
+                        </div>
+                        <div class="section-content">
+                            <div class="section-description">Enter your account details and basic chatbot settings.</div>
+                            <div class="form-group">
+                                <label class="form-label" for="accountId">Account ID</label>
+                                <input type="text" id="accountId" class="form-input" placeholder="Enter your Account ID">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="webchatId">Webchat ID</label>
+                                <input type="text" id="webchatId" class="form-input" placeholder="Enter your Webchat ID">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="bubbleColorMode">Bubble Color Mode</label>
+                                <select id="bubbleColorMode" class="form-input">
+                                    <option value="gradient">Gradient</option>
+                                    <option value="solid">Solid</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="colorStart">Bubble Start/Solid Color</label>
+                                <div class="color-input-wrapper">
+                                    <input type="color" id="colorStart" value="#36D6B5" />
+                                    <span class="color-value" id="colorStartValue">#36D6B5</span>
+                                </div>
+                            </div>
+                            <div class="form-group" id="gradientEndColorGroup">
+                                <label class="form-label" for="colorEnd">Bubble Gradient End Color</label>
+                                <div class="color-input-wrapper">
+                                    <input type="color" id="colorEnd" value="#2fb298" />
+                                    <span class="color-value" id="colorEndValue">#2fb298</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="popupBgColor">Popup Background Color</label>
-                        <div class="color-input-wrapper">
-                            <input type="color" id="popupBgColor" value="#ffffff" />
-                            <span class="color-value" id="popupBgColorValue">#ffffff</span>
+
+                    <!-- Bubble & Icon Settings -->
+                    <div class="section" data-section="bubble">
+                        <div class="section-header">
+                            <h2>Bubble & Icon Settings</h2>
+                        </div>
+                        <div class="section-content">
+                            <div class="section-description">Customize the size of the bubble and the icon inside it.</div>
+                            <div class="form-group">
+                                <label class="form-label" for="bubbleWidth">Bubble Width (px)</label>
+                                <input type="number" id="bubbleWidth" class="form-input" value="70" min="40" max="200">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="bubbleHeight">Bubble Height (px)</label>
+                                <input type="number" id="bubbleHeight" class="form-input" value="70" min="40" max="200">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="iconWidth">Icon Width (%)</label>
+                                <input type="number" id="iconWidth" class="form-input" value="60" min="10" max="100">
+                                <span class="help-text">Percentage relative to bubble size</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="iconHeight">Icon Height (%)</label>
+                                <input type="number" id="iconHeight" class="form-input" value="60" min="10" max="100">
+                                <span class="help-text">Percentage relative to bubble size</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="iconInput">Button Icon URL</label>
+                                <input type="url" id="iconInput" class="form-input" placeholder="https://example.com/icon.png">
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="popupBorderColor">Popup Border Color</label>
-                        <div class="color-input-wrapper">
-                            <input type="color" id="popupBorderColor" value="#e9ecef" />
-                            <span class="color-value" id="popupBorderColorValue">#e9ecef</span>
+
+                    <!-- Popup Settings -->
+                    <div class="section" data-section="popup">
+                        <div class="section-header">
+                            <h2>Popup Settings</h2>
+                        </div>
+                        <div class="section-content">
+                            <div class="section-description">Customize the optional popup that appears above the chat bubble.</div>
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="popupEnabled" checked>
+                                <label for="popupEnabled">Enable Popup</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="popupX">Popup X Offset (px)</label>
+                                <input type="number" id="popupX" class="form-input" value="0" placeholder="Horizontal offset">
+                                <span class="help-text">Positive moves right, negative moves left</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="popupY">Popup Y Offset (px)</label>
+                                <input type="number" id="popupY" class="form-input" value="-20" placeholder="Vertical offset">
+                                <span class="help-text">Negative moves up, positive moves down</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="popupText">Popup Text</label>
+                                <input type="text" id="popupText" class="form-input" value="Click Here for a Discount 💸">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="popupFontSize">Popup Font Size (px)</label>
+                                <input type="number" id="popupFontSize" class="form-input" value="16" min="10" max="36">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="popupTextColor">Popup Text Color</label>
+                                <div class="color-input-wrapper">
+                                    <input type="color" id="popupTextColor" value="#1c1c1e" />
+                                    <span class="color-value" id="popupTextColorValue">#1c1c1e</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="popupBgColor">Popup Background Color</label>
+                                <div class="color-input-wrapper">
+                                    <input type="color" id="popupBgColor" value="#ffffff" />
+                                    <span class="color-value" id="popupBgColorValue">#ffffff</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="popupBorderColor">Popup Border Color</label>
+                                <div class="color-input-wrapper">
+                                    <input type="color" id="popupBorderColor" value="#e9ecef" />
+                                    <span class="color-value" id="popupBorderColorValue">#e9ecef</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="popupBorderWidth">Popup Border Thickness (px)</label>
+                                <input type="number" id="popupBorderWidth" class="form-input" value="1" min="0" max="10">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="popupFontFamily">Popup Font Family</label>
+                                <select id="popupFontFamily" class="form-input">
+                                    <option value="Arial">Arial</option>
+                                    <option value="Helvetica">Helvetica</option>
+                                    <option value="Times New Roman">Times New Roman</option>
+                                    <option value="Courier New">Courier New</option>
+                                    <option value="Georgia">Georgia</option>
+                                    <option value="Tahoma">Tahoma</option>
+                                    <option value="Verdana">Verdana</option>
+                                    <option value="Impact">Impact</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="popupFontStyle">Popup Font Style</label>
+                                <select id="popupFontStyle" class="form-input">
+                                    <option value="normal">Regular</option>
+                                    <option value="bold">Bold</option>
+                                    <option value="italic">Italics</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="popupBorderWidth">Popup Border Thickness (px)</label>
-                        <input type="number" id="popupBorderWidth" class="form-input" value="1" min="0" max="10">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="popupFontFamily">Popup Font Family</label>
-                        <select id="popupFontFamily" class="form-input">
-                            <option value="Arial">Arial</option>
-                            <option value="Helvetica">Helvetica</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                            <option value="Courier New">Courier New</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Tahoma">Tahoma</option>
-                            <option value="Verdana">Verdana</option>
-                            <option value="Impact">Impact</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="popupFontStyle">Popup Font Style</label>
-                        <select id="popupFontStyle" class="form-input">
-                            <option value="normal">Regular</option>
-                            <option value="bold">Bold</option>
-                            <option value="italic">Italics</option>
-                        </select>
-                    </div>
-                </div>
 
-                <!-- Timer Settings -->
-                <div class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">Timer Settings</h2>
-                        <p class="section-description">Configure when your chat window and popup should appear.</p>
+                    <!-- Timer Settings -->
+                    <div class="section" data-section="timer">
+                        <div class="section-header">
+                            <h2>Timer Settings</h2>
+                        </div>
+                        <div class="section-content">
+                            <div class="section-description">Configure when your chat window and popup should appear.</div>
+                            <div class="form-group">
+                                <label class="form-label" for="chatDelay">Chat Open Delay (seconds)</label>
+                                <input 
+                                    type="number" 
+                                    id="chatDelay" 
+                                    class="form-input" 
+                                    min="0" 
+                                    value="0"
+                                    placeholder="Enter delay in seconds"
+                                />
+                                <span class="help-text">Set to 0 to disable auto-open</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="popupDelay">Popup Display Delay (seconds)</label>
+                                <input 
+                                    type="number" 
+                                    id="popupDelay" 
+                                    class="form-input" 
+                                    min="0" 
+                                    value="0"
+                                    placeholder="Enter delay in seconds"
+                                />
+                                <span class="help-text">Set to 0 to show immediately</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="chatDelay">Chat Open Delay (seconds)</label>
-                        <input 
-                            type="number" 
-                            id="chatDelay" 
-                            class="form-input" 
-                            min="0" 
-                            value="0"
-                            placeholder="Enter delay in seconds"
-                        />
-                        <span class="help-text">Set to 0 to disable auto-open</span>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="popupDelay">Popup Display Delay (seconds)</label>
-                        <input 
-                            type="number" 
-                            id="popupDelay" 
-                            class="form-input" 
-                            min="0" 
-                            value="0"
-                            placeholder="Enter delay in seconds"
-                        />
-                        <span class="help-text">Set to 0 to show immediately</span>
-                    </div>
-                </div>
 
-                <!-- Generated Code -->
-                <div class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">Generated Code</h2>
-                        <p class="section-description">Copy this code and paste it into your website's HTML before the closing <code>&lt;/body&gt;</code> tag.</p>
+                    <!-- Generated Code -->
+                    <div class="section" data-section="code">
+                        <div class="section-header">
+                            <h2>Generated Code</h2>
+                        </div>
+                        <div class="section-content">
+                            <div class="section-description">Copy this code and paste it into your website's HTML before the closing <code>&lt;/body&gt;</code> tag.</div>
+                            <button id="copyBtn" class="primary-button">Copy to Clipboard</button>
+                            <div class="code-block" id="codeOutput"></div>
+                        </div>
                     </div>
-                    <button id="copyBtn" class="primary-button">Copy to Clipboard</button>
-                    <div class="code-block" id="codeOutput"></div>
                 </div>
             </div>
 
@@ -549,10 +614,15 @@
     <div class="toast" id="toast"></div>
 
     <script>
+        // Parse URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const accParam = urlParams.get('acc');
+        const idParam = urlParams.get('id');
+
         // State Management
         const state = {
-            accountId: '',
-            webchatId: '',
+            accountId: accParam || '',
+            webchatId: idParam || '',
             bubbleColorMode: 'gradient',
             colorStart: '#36D6B5',
             colorEnd: '#2fb298',
@@ -949,10 +1019,6 @@ ${popupDiv}
             resetPreviewTimers();
         }
 
-        document.querySelectorAll('input, select').forEach(input => {
-            input.addEventListener('input', updatePreview);
-        });
-
         el.copyBtn.addEventListener('click', async () => {
             try {
                 await navigator.clipboard.writeText(el.codeOutput.textContent);
@@ -976,6 +1042,34 @@ ${popupDiv}
             showToast('Popup clicked (would open chat if IDs are valid)');
             el.previewPopup.style.display = 'none';
         });
+
+        // Only one section open at a time
+        const sectionHeaders = document.querySelectorAll('.section-header');
+        sectionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const clickedSection = header.parentElement;
+                const allSections = document.querySelectorAll('.section');
+                allSections.forEach(sec => {
+                    if (sec !== clickedSection) {
+                        sec.classList.remove('open');
+                    }
+                });
+                clickedSection.classList.toggle('open');
+            });
+        });
+
+        // Listen to input changes
+        document.querySelectorAll('input, select').forEach(input => {
+            input.addEventListener('input', updatePreview);
+        });
+
+        // Pre-fill from URL
+        if (accParam) {
+            el.accountId.value = accParam;
+        }
+        if (idParam) {
+            el.webchatId.value = idParam;
+        }
 
         // Initialize
         updatePreview();
