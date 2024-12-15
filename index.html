@@ -86,18 +86,18 @@
         .main-layout {
             flex: 1;
             display: flex;
-            overflow-x: auto;
+            flex-direction: row;
+            overflow-x: hidden;
         }
 
         .controls-column {
             width: 325px;
             min-width: 325px;
-            background: #ffffff;
-            border-right: 1px solid #e9ecef;
+            background: var(--neutral-50);
+            border-right: 1px solid var(--neutral-200);
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            min-height: 0;
         }
 
         .controls-content {
@@ -108,17 +108,17 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            background: var(--neutral-50);
             overflow: hidden;
             padding: var(--space-4);
-            min-height: 0;
         }
 
         /* Container for sections */
         .section {
-            margin-bottom: 24px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            margin-bottom: var(--space-4);
+            background: var(--neutral-100);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--neutral-300);
         }
 
         /* Section header/title styling */
@@ -128,37 +128,36 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
-            color: white;
-            padding: 10px 0px 10px 5px;
-            border-bottom: 1px solid #e0e0e0;
-            background: #36d6b5; /* Green header background */
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
+            color: var(--neutral-50);
+            background: var(--primary);
+            padding: var(--space-3) var(--space-2);
+            border-top-left-radius: var(--radius-md);
+            border-top-right-radius: var(--radius-md);
         }
 
         /* Toggle icon in section header */
         .section-title .toggle-icon {
-            margin-right: 10px;
+            margin-right: var(--space-2);
             font-weight: bold;
         }
 
         /* Content area of each section */
         .section-content {
-            padding: 15px;
-            display: none; /* Start with sections closed */
+            padding: var(--space-4);
+            display: none;
         }
 
         /* Control groups within sections */
         .control-group {
-            margin-bottom: 12px;
+            margin-bottom: var(--space-3);
         }
 
         /* Labels for form controls */
         label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: var(--space-2);
             font-size: 14px;
-            color: #4a5568;
+            color: var(--neutral-700);
         }
 
         .form-input {
