@@ -100,15 +100,6 @@
             min-height: 0;
         }
 
-        /* Header in the controls column */
-        .controls-header {
-            background: #36D6B5;
-            color: #ffffff;
-            padding: var(--space-4);
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
         .controls-content {
             padding: var(--space-4);
         }
@@ -124,11 +115,7 @@
 
         .section {
             background: white;
-            border: 1px solid var(--neutral-200);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
             margin-bottom: var(--space-6);
-            overflow: hidden;
         }
 
         .section-header {
@@ -140,6 +127,9 @@
             align-items: center;
             justify-content: space-between;
             position: relative;
+            /* Extend full width by negating parent padding */
+            margin-left: -var(--space-4);
+            margin-right: -var(--space-4);
         }
 
         .section-header h2 {
@@ -164,7 +154,6 @@
         .section-content {
             padding: var(--space-6);
             display: none;
-            /* Make the content scrollable individually */
             max-height: 300px;
             overflow-y: auto;
         }
@@ -298,7 +287,6 @@
             margin-bottom: var(--space-6);
         }
 
-        /* Bubble Preview */
         #preview-bubble {
             position: absolute;
             bottom: var(--space-4);
@@ -316,7 +304,6 @@
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
         }
 
-        /* Popup Preview */
         #preview-popup {
             position: absolute;
             display: none;
@@ -397,14 +384,11 @@
     <div class="app-container">
         <div class="main-layout">
             <div class="controls-column">
-                <div class="controls-header">
-                    Configuration Options
-                </div>
                 <div class="controls-content">
                     <!-- Basic Configuration -->
                     <div class="section open" data-section="basic">
                         <div class="section-header">
-                            <h2>Webchat Launcher Settings</h2>
+                            <h2>Launcher Settings</h2>
                         </div>
                         <div class="section-content">
                             <div class="section-description">Enter your account details and basic chatbot settings.</div>
@@ -443,7 +427,7 @@
                     <!-- Bubble & Icon Settings -->
                     <div class="section" data-section="bubble">
                         <div class="section-header">
-                            <h2>Bubble & Icon Settings</h2>
+                            <h2>Icon Settings</h2>
                         </div>
                         <div class="section-content">
                             <div class="section-description">Customize the size of the bubble and the icon inside it.</div>
@@ -505,21 +489,21 @@
                                 <label class="form-label" for="popupTextColor">Popup Text Color</label>
                                 <div class="color-input-wrapper">
                                     <input type="color" id="popupTextColor" value="#1c1c1e" />
-                                    <span class="color-value" id="popupTextColorValue">#1c1c1e</span>
+                                    <span class="color-value" id="popupTextColorValue">#1C1C1E</span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="popupBgColor">Popup Background Color</label>
                                 <div class="color-input-wrapper">
                                     <input type="color" id="popupBgColor" value="#ffffff" />
-                                    <span class="color-value" id="popupBgColorValue">#ffffff</span>
+                                    <span class="color-value" id="popupBgColorValue">#FFFFFF</span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="popupBorderColor">Popup Border Color</label>
                                 <div class="color-input-wrapper">
                                     <input type="color" id="popupBorderColor" value="#e9ecef" />
-                                    <span class="color-value" id="popupBorderColorValue">#e9ecef</span>
+                                    <span class="color-value" id="popupBorderColorValue">#E9ECEF</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -587,7 +571,7 @@
                     <!-- Generated Code -->
                     <div class="section" data-section="code">
                         <div class="section-header">
-                            <h2>Generated Code</h2>
+                            <h2>Code</h2>
                         </div>
                         <div class="section-content">
                             <div class="section-description">Copy this code and paste it into your website's HTML before the closing <code>&lt;/body&gt;</code> tag.</div>
@@ -704,7 +688,6 @@
                 backgroundStyle = `linear-gradient(45deg, ${colorStart}, ${colorEnd})`;
                 el.gradientEndColorGroup.style.display = 'block';
             } else {
-                // Solid mode
                 backgroundStyle = colorStart;
                 el.gradientEndColorGroup.style.display = 'none';
             }
@@ -756,7 +739,6 @@
             el.previewPopupText.style.fontWeight = popupFontStyle === 'bold' ? 'bold' : 'normal';
             el.previewPopupText.style.fontStyle = popupFontStyle === 'italic' ? 'italic' : 'normal';
 
-            // Position popup relative to bubble
             const baseRight = 20;
             const baseBottom = bubbleHeight + 20;
             el.previewPopup.style.right = `${baseRight - popupX}px`;
@@ -885,7 +867,6 @@
     }
 `;
             } else {
-                // Popup disabled or no text
                 popupStyle = '';
                 popupDiv = '';
                 popupScript = `
