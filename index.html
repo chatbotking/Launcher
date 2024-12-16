@@ -123,7 +123,6 @@
         .section {
             margin-bottom: var(--space-4);
             background: var(--neutral-100);
-            border-radius: var(--radius-md);
             border: 1px solid var(--neutral-300);
         }
 
@@ -136,9 +135,13 @@
             font-weight: 600;
             color: var(--neutral-50);
             background: var(--primary);
-            padding: var(--space-3) var(--space-2);
+            /* Make green headers about 3px less tall and top corners rounded, bottom corners sharp */
+            padding: 0.5625rem var(--space-2);
             border-top-left-radius: var(--radius-md);
             border-top-right-radius: var(--radius-md);
+            /* No bottom radius to ensure sharp bottom corners */
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
         }
 
         /* Toggle icon in section header */
@@ -271,17 +274,27 @@
             position: absolute;
             bottom: var(--space-4);
             right: var(--space-4);
-            border-radius: 50%;
             cursor: pointer;
             box-shadow: var(--shadow-lg);
             transition: var(--transition-base);
             z-index: 1;
             background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 50%; /* Always a circle */
         }
 
         #preview-bubble:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        #preview-bubble-icon {
+            display: block;
+            object-fit: cover;
+            position: relative;
         }
 
         #preview-popup {
@@ -366,7 +379,7 @@
             <div class="controls-column">
                 <div class="controls-content">
                     <!-- Header and Sub-header -->
-                   <h2>Style & Configure Your Chat Widget</h2>
+                    <h2>Style & Configure Your Chat Widget</h2>
                     <!-- Launcher Settings -->
                     <div class="section">
                         <div class="section-title">
@@ -430,6 +443,16 @@
                                 <label for="iconHeight">Icon Height (%)</label>
                                 <input type="number" id="iconHeight" class="form-input" value="60" min="10" max="100">
                                 <span class="help-text">Percentage relative to bubble size</span>
+                            </div>
+                            <div class="control-group">
+                                <label for="iconXOffset">Icon X Offset (px)</label>
+                                <input type="number" id="iconXOffset" class="form-input" value="0">
+                                <span class="help-text">Positive moves icon right, negative moves left</span>
+                            </div>
+                            <div class="control-group">
+                                <label for="iconYOffset">Icon Y Offset (px)</label>
+                                <input type="number" id="iconYOffset" class="form-input" value="0">
+                                <span class="help-text">Positive moves icon down, negative moves up</span>
                             </div>
                             <div class="control-group">
                                 <label for="iconInput">Button Icon URL</label>
@@ -570,7 +593,9 @@
             <div class="preview-column">
                 <!-- Preview Section -->
                 <div class="preview-section">
-                    <div id="preview-bubble"></div>
+                    <div id="preview-bubble">
+                        <img id="preview-bubble-icon" src="" alt="Chat Icon" />
+                    </div>
                     <div id="preview-popup">
                         <span id="preview-popup-text"></span>
                         <button id="preview-popup-close">&times;</button>
@@ -600,6 +625,8 @@
             bubbleHeight: 70,
             iconWidthPercent: 60,
             iconHeightPercent: 60,
+            iconXOffset: 0,
+            iconYOffset: 0,
             popupEnabled: true,
             popupText: 'Click Here for a Discount 💸',
             popupFontSize: 16,
@@ -630,6 +657,8 @@
             bubbleHeight: document.getElementById('bubbleHeight'),
             iconWidth: document.getElementById('iconWidth'),
             iconHeight: document.getElementById('iconHeight'),
+            iconXOffset: document.getElementById('iconXOffset'),
+            iconYOffset: document.getElementById('iconYOffset'),
             popupEnabled: document.getElementById('popupEnabled'),
             popupX: document.getElementById('popupX'),
             popupY: document.getElementById('popupY'),
@@ -647,6 +676,7 @@
             copyBtn: document.getElementById('copyBtn'),
             codeOutput: document.getElementById('codeOutput'),
             previewBubble: document.getElementById('preview-bubble'),
+            previewBubbleIcon: document.getElementById('preview-bubble-icon'),
             previewPopup: document.getElementById('preview-popup'),
             previewPopupText: document.getElementById('preview-popup-text'),
             previewPopupClose: document.getElementById('preview-popup-close'),
@@ -664,9 +694,9 @@
             el.popupBorderColorValue.textContent = el.popupBorderColor.value.toUpperCase();
         }
 
-        // Update bubble background
+        // Update bubble background and icon
         async function updateBubbleBackground() {
-            const { bubbleColorMode, colorStart, colorEnd, bubbleWidth, bubbleHeight, iconUrl, iconWidthPercent, iconHeightPercent } = state;
+            const { bubbleColorMode, colorStart, colorEnd, bubbleWidth, bubbleHeight, iconUrl, iconWidthPercent, iconHeightPercent, iconXOffset, iconYOffset } = state;
             let backgroundStyle;
 
             if (bubbleColorMode === 'gradient') {
@@ -684,15 +714,13 @@
             if (iconUrl) {
                 try {
                     await loadPreviewImage(iconUrl);
-                    el.previewBubble.style.background = iconUrl
-                        ? `url('${iconUrl}') center center no-repeat, ${backgroundStyle}`
-                        : backgroundStyle;
-                    el.previewBubble.style.backgroundSize = `${iconWidthPercent}% ${iconHeightPercent}%, cover`;
+                    el.previewBubbleIcon.src = iconUrl;
+                    el.previewBubbleIcon.style.width = `${iconWidthPercent}%`;
+                    el.previewBubbleIcon.style.height = `${iconHeightPercent}%`;
+                    el.previewBubbleIcon.style.transform = `translate(${iconXOffset}px, ${iconYOffset}px)`;
                 } catch {
                     showToast('Invalid image URL', 'error');
                 }
-            } else {
-                el.previewBubble.style.backgroundSize = 'cover';
             }
         }
 
@@ -734,7 +762,7 @@
         function updateCode() {
             const {
                 accountId, webchatId, bubbleColorMode, colorStart, colorEnd, iconUrl, chatDelay, popupDelay,
-                bubbleWidth, bubbleHeight, iconWidthPercent, iconHeightPercent,
+                bubbleWidth, bubbleHeight, iconWidthPercent, iconHeightPercent, iconXOffset, iconYOffset,
                 popupEnabled, popupText, popupFontSize, popupTextColor, popupBgColor,
                 popupBorderColor, popupBorderWidth, popupX, popupY, popupFontFamily, popupFontStyle
             } = state;
@@ -874,21 +902,20 @@
 <style>
 
 .ktt10-btn {
-    width: 70px !important;
-    height: 70px !important;
-    background: linear-gradient(45deg, #36d6b5, #2fb298) !important;
-    border-radius: 50% !important; /* Makes it a circle */
-    display: flex; /* Centers content inside */
-    justify-content: center; /* Centers content horizontally */
-    align-items: center; /* Centers content vertically */
-    overflow: hidden; /* Ensures the content stays inside the circle */
+    width: ${bubbleWidth}px !important;
+    height: ${bubbleHeight}px !important;
+    background: ${bubbleBackground} !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
 }
 
 .ktt10-btn img {
-    width: 100% !important;
-    height: 100% !important;
+    width: ${iconWidthPercent}% !important;
+    height: ${iconHeightPercent}% !important;
     object-fit: cover !important;
-    border-radius: 50% !important; /* Ensures the image is a circle */
+    transform: translate(${iconXOffset}px, ${iconYOffset}px) !important;
 }
 
 ${popupStyle}
@@ -966,7 +993,6 @@ ${popupDiv}
             state.bubbleColorMode = el.bubbleColorMode.value;
             state.colorStart = el.colorStart.value;
             state.colorEnd = el.colorEnd.value;
-            // Only update iconUrl if user has entered something, otherwise use default
             if (el.iconInput.value.trim() !== '') {
                 state.iconUrl = el.iconInput.value.trim();
             } else {
@@ -976,6 +1002,8 @@ ${popupDiv}
             state.bubbleHeight = parseInt(el.bubbleHeight.value, 10);
             state.iconWidthPercent = parseInt(el.iconWidth.value, 10);
             state.iconHeightPercent = parseInt(el.iconHeight.value, 10);
+            state.iconXOffset = parseInt(el.iconXOffset.value, 10) || 0;
+            state.iconYOffset = parseInt(el.iconYOffset.value, 10) || 0;
             state.popupEnabled = el.popupEnabled.checked;
             state.popupX = parseInt(el.popupX.value, 10) || 0;
             state.popupY = parseInt(el.popupY.value, 10) || -20;
