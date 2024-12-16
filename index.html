@@ -433,7 +433,7 @@
                             </div>
                             <div class="control-group">
                                 <label for="iconInput">Button Icon URL</label>
-                                <input type="url" id="iconInput" class="form-input" placeholder="https://i.ibb.co/pPksxnb/default-chat-icom.png">
+                                <input type="url" id="iconInput" class="form-input" placeholder="Enter your image link here">
                             </div>
                         </div>
                     </div>
@@ -957,7 +957,12 @@ ${popupDiv}
             state.bubbleColorMode = el.bubbleColorMode.value;
             state.colorStart = el.colorStart.value;
             state.colorEnd = el.colorEnd.value;
-            state.iconUrl = el.iconInput.value.trim();
+            // Only update iconUrl if user has entered something, otherwise use default
+            if (el.iconInput.value.trim() !== '') {
+                state.iconUrl = el.iconInput.value.trim();
+            } else {
+                state.iconUrl = 'https://i.ibb.co/pPksxnb/default-chat-icom.png';
+            }
             state.bubbleWidth = parseInt(el.bubbleWidth.value, 10);
             state.bubbleHeight = parseInt(el.bubbleHeight.value, 10);
             state.iconWidthPercent = parseInt(el.iconWidth.value, 10);
