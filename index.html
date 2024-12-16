@@ -872,16 +872,25 @@
 
             const code = `<!-- Chatbot Builder AI Floating Bubble Setup -->
 <style>
+
 .ktt10-btn {
-    width: ${bubbleWidth}px !important;
-    height: ${bubbleHeight}px !important;
-    background: ${bubbleBackground} !important;
+    width: 70px !important;
+    height: 70px !important;
+    background: linear-gradient(45deg, #36d6b5, #2fb298) !important;
+    border-radius: 50% !important; /* Makes it a circle */
+    display: flex; /* Centers content inside */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    overflow: hidden; /* Ensures the content stays inside the circle */
 }
+
 .ktt10-btn img {
-    width: ${iconWidthPercent}% !important;
-    height: ${iconHeightPercent}% !important;
-    object-fit: contain !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 50% !important; /* Ensures the image is a circle */
 }
+
 ${popupStyle}
 </style>
 
